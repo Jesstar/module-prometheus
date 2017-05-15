@@ -1,4 +1,6 @@
 class prometheus::prometheus_deployment (
+  Integer[1,1800] $scrape_interval = 15,
+  Integer[1,1800] $evaluation_interval = 30,
   $addon_dir = $::prometheus::addon_dir,
   $helper_dir = $::prometheus::helper_dir,
   $prometheus_namespace = $::prometheus::prometheus_namespace,
