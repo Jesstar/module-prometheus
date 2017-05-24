@@ -3,15 +3,20 @@ kubectl::apply { 'prometheus-configmap':
 }
 
 kubectl::apply_fragment { 'prometheus-config-header':
-  manifests => [],
+  content   => ["apiVersion: v1",
+                "kind: ConfigMap",
+                "metadata:",
+                "  name: prometheus",
+                "  namespace: <%= @prometheus_namespace %>",
+                "data:"],
   order     => '01',
   target    => '/etc/kubernetes/apply/prometheus-configmap.yaml',
 }
 
 kubectl::apply_fragment: { 'prometheus-filename':
-  manifest => "prometheus.yml: |-",
-  order    => '02',
-  target    => '/etc/kubernetes/apply/prometheus-configmap.yaml',
+  content => "  prometheus.yml: |-",
+  order   => '02',
+  target  => '/etc/kubernetes/apply/prometheus-configmap.yaml',
 }
 
 kubectl::apply_fragment { 'prometheus-rules':
